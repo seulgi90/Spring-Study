@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv = "content-type" content ="text/html; charcet = UTF-8">
+<title>Hello Spring!</title>
+</head>
+<body>
+<div class="container">
+	<div>
+		<h1>Hello Spring!</h1>
+		<p>회원 가입</p>
+		<form action="/members/new" method="post">
+			<div class="form-gruop">
+				<label for="name">이름</label>
+				<input type="text" id="name" name="name" placeholder="이름을 입력하세요.">
+			</div>
+			<button type="submit">등록</button>
+		</form>
+	</div>
+</div>
+
+</body>
+</html>
