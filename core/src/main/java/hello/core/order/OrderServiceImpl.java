@@ -1,11 +1,13 @@
 package hello.core.order;
 
-import org.springframework.context.annotation.Configuration;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import hello.core.discount.DiscountPolicy;
 import hello.core.member.Member;
 import hello.core.member.MemberRepository;
 
+@Component
 public class OrderServiceImpl implements OrderService {
 	
 //	private final MemberRepository memberRepository = new MemoryMemberRepository();
@@ -18,9 +20,11 @@ public class OrderServiceImpl implements OrderService {
 //	private final DiscountPolicy discountPolicy = new RateDiscountPolicy();
 	
 	// 추상(인터페이스)에만 의존하도록 변경 :DIP
+	// 오직 생성자 주입 방식만 final을 사용 할 수 있다 : 수정자(setter) 주입을 포함한 나머지 주입 방식은 모두 생성자 이후에 호출 되기때문
 	private final MemberRepository memberRepository;
 	private final DiscountPolicy discountPolicy;
 
+	@Autowired
 	public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
 		this.memberRepository = memberRepository;
 		this.discountPolicy = discountPolicy;
@@ -32,6 +36,11 @@ public class OrderServiceImpl implements OrderService {
 		int discountPrice = discountPolicy.discount(member, itemPrice); // 등급만 넘겨도 되는건데 확장성을 고려하여 member로 넘김
 		
 		return new Order(memberId, itemName, itemPrice, discountPrice);
+	}
+	
+	// 테스트 용도
+	public MemberRepository getMemberRepository() {
+		return memberRepository;
 	}
 
 }

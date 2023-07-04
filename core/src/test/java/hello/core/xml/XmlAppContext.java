@@ -12,6 +12,7 @@ public class XmlAppContext {
 
 	@Test
 	void xmlAppContext() {
+		// GenericXmlApplicationContext 사용하여 설정 파일 정보를 넘긴다 
 		ApplicationContext ac = new GenericXmlApplicationContext("appConfig.xml");
 
 		MemberService memberService = ac.getBean("memberService", MemberService.class);
