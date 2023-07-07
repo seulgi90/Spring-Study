@@ -6,8 +6,10 @@ import org.springframework.stereotype.Component;
 import hello.core.discount.DiscountPolicy;
 import hello.core.member.Member;
 import hello.core.member.MemberRepository;
+import lombok.RequiredArgsConstructor;
 
 @Component
+@RequiredArgsConstructor // final이 붙은 필드를 파라미터로 받는 기본생성자를 만들어준다
 public class OrderServiceImpl implements OrderService {
 	
 //	private final MemberRepository memberRepository = new MemoryMemberRepository();
@@ -24,11 +26,12 @@ public class OrderServiceImpl implements OrderService {
 	private final MemberRepository memberRepository;
 	private final DiscountPolicy discountPolicy;
 
-	@Autowired
-	public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
-		this.memberRepository = memberRepository;
-		this.discountPolicy = discountPolicy;
-	}
+//	-------> @RequiredArgsConstructor 적용하면 기본 생성자가 자동으로 생성되기때문에 주석처리
+//	@Autowired
+//	public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
+//		this.memberRepository = memberRepository;
+//		this.discountPolicy = discountPolicy;
+//	}
 
 	@Override
 	public Order createOrder(Long memberId, String itemName, int itemPrice) {
