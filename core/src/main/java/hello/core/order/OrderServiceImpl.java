@@ -3,13 +3,14 @@ package hello.core.order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import hello.core.annotation.MainDiscountPoliscy;
 import hello.core.discount.DiscountPolicy;
 import hello.core.member.Member;
 import hello.core.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 
 @Component
-@RequiredArgsConstructor // final이 붙은 필드를 파라미터로 받는 기본생성자를 만들어준다
+//@RequiredArgsConstructor // final이 붙은 필드를 파라미터로 받는 기본생성자를 만들어준다
 public class OrderServiceImpl implements OrderService {
 	
 //	private final MemberRepository memberRepository = new MemoryMemberRepository();
@@ -28,10 +29,17 @@ public class OrderServiceImpl implements OrderService {
 
 //	-------> @RequiredArgsConstructor 적용하면 기본 생성자가 자동으로 생성되기때문에 주석처리
 //	@Autowired
-//	public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
+//	public OrderServiceImpl(MemberRepository memberRepository, @Qualifier("mainDiscountPolicy") DiscountPolicy discountPolicy) {
 //		this.memberRepository = memberRepository;
 //		this.discountPolicy = discountPolicy;
 //	}
+	
+	// 직접 만든 어노테이션 적용
+	@Autowired
+	public OrderServiceImpl(MemberRepository memberRepository, @MainDiscountPoliscy DiscountPolicy discountPolicy) {
+		this.memberRepository = memberRepository;
+		this.discountPolicy = discountPolicy;
+	}
 
 	@Override
 	public Order createOrder(Long memberId, String itemName, int itemPrice) {
