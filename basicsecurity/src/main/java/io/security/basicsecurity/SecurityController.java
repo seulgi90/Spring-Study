@@ -17,30 +17,30 @@ public class SecurityController {
       return "home";
     }
     
-    @GetMapping("/")
-    public String index(HttpSession session) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        SecurityContext context = (SecurityContext) session.getAttribute((HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY));
-        Authentication authentication1 = context.getAuthentication();
-        // authentication 와 authentication1 는 동일한 객체를 참조하고있다~~
-        return "home";
-    }
-    
-    @GetMapping("/thread")
-    public String thread() {
-        // MODE_THREADLOCAL  : 메인 스레드와 자식 스레드는 SecurityContext 객체를 공유 할수 없다 ( 기본값)
-        // MODE_INHERITABLETHREADLOCAL : 메인 스레드와 자식 스레드에 관하여 동일한 SecurityContext 를 유지
-        // MODE_GLOBAL : 응용 프로그램에서 단 하나의 SecurityContext를 저장
-        new Thread(
-            new Runnable() {
-                @Override
-                public void run() {
-                    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-                }
-            }
-        ).start();
-        return "thread";
-    }
+//    @GetMapping("/")
+//    public String index(HttpSession session) {
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        SecurityContext context = (SecurityContext) session.getAttribute((HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY));
+//        Authentication authentication1 = context.getAuthentication();
+//        // authentication 와 authentication1 는 동일한 객체를 참조하고있다~~
+//        return "home";
+//    }
+//
+//    @GetMapping("/thread")
+//    public String thread() {
+//        // MODE_THREADLOCAL  : 메인 스레드와 자식 스레드는 SecurityContext 객체를 공유 할수 없다 ( 기본값)
+//        // MODE_INHERITABLETHREADLOCAL : 메인 스레드와 자식 스레드에 관하여 동일한 SecurityContext 를 유지
+//        // MODE_GLOBAL : 응용 프로그램에서 단 하나의 SecurityContext를 저장
+//        new Thread(
+//            new Runnable() {
+//                @Override
+//                public void run() {
+//                    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//                }
+//            }
+//        ).start();
+//        return "thread";
+//    }
     
 //    @GetMapping("loginPage")
 //    public String loginPage() {
