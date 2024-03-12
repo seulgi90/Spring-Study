@@ -11,13 +11,14 @@ import security.coreSpringsecurity.domain.Account;
 import security.coreSpringsecurity.domain.AccountDto;
 import security.coreSpringsecurity.service.UserService;
 
-@RequiredArgsConstructor
 @Controller
 public class UserController {
 
-    private final UserService userService;
+    @Autowired
+    private UserService userService;
 
-    private final PasswordEncoder passwordEncoder;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @GetMapping("/mypage")
     public String myPage() throws Exception {
