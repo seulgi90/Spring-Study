@@ -19,11 +19,17 @@ import java.util.List;
 
 public class EventCsvReader {
 
+    private final RawCsvReader rawCsvReader;
+
+    public EventCsvReader(RawCsvReader rawCsvReader) {
+        this.rawCsvReader = rawCsvReader;
+    }
+
     public List<Meeting> readMeetings(String path) throws IOException, CsvException {
         List<Meeting> result = new ArrayList<>();
 
         // 데이터 읽기
-        List<String[]> read = readAll(path);
+        List<String[]> read = rawCsvReader.readAll(path);
         for (int i = 0; i < read.size(); i++) {
             // 헤더 제외
             if (skipHeader(i)) {
@@ -55,11 +61,12 @@ public class EventCsvReader {
         return i == 0;
     }
 
-    private List<String[]> readAll(String path) throws IOException, CsvException {
-        InputStream in = getClass().getResourceAsStream(path);
-        InputStreamReader reader = new InputStreamReader(in, StandardCharsets.UTF_8); // csv파일로 변환
-
-        CSVReader csvReader = new CSVReader(reader);
-        return csvReader.readAll();
-    }
+//    private List<String[]> readAll(String path) throws IOException, CsvException {
+//        InputStream in = getClass().getResourceAsStream(path);
+//        InputStreamReader reader = new InputStreamReader(in, StandardCharsets.UTF_8); // csv파일로 변환
+//
+//        CSVReader csvReader = new CSVReader(reader);
+//        return csvReader.readAll();
+//    }
+    // mock데이터가 필요 -> 리팩토링 : RawCsvReader클래스 생성하여 메서드 이동
 }

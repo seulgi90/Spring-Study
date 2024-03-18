@@ -2,7 +2,9 @@ package com.p2.calendarapp;
 
 import com.opencsv.exceptions.CsvException;
 import com.p2.calendarapp.event.*;
+import com.p2.calendarapp.event.update.UpdateMeeting;
 import com.p2.calendarapp.reader.EventCsvReader;
+import com.p2.calendarapp.reader.RawCsvReader;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -22,11 +24,39 @@ public class CalendarAppApplication {
 		Schedule schedule = new Schedule();
 
 		// csv파일로 대량 등록
-		EventCsvReader csvReader = new EventCsvReader();
+		EventCsvReader csvReader = new EventCsvReader(new RawCsvReader());
 		String meetingCsvPath = "/data/meeting.csv";
 
 		List<Meeting> meetings = csvReader.readMeetings(meetingCsvPath);
 		meetings.forEach(schedule::add);
+		schedule.printAll();
+
+		System.out.println("수정 후..");
+		meetings.get(0).validateAndUpdate(
+				new UpdateMeeting(
+						"new title",
+						ZonedDateTime.now(),
+						ZonedDateTime.now().plusHours(3),
+						null,
+						"A",
+						"new agenda"
+				)
+		);
+
+		meetings.get(0).delete(true);
+		System.out.println("삭제 후..");
+
+//		System.out.println("삭제 후..재수정 시도 Test");
+//		meetings.get(0).validateAndUpdate(
+//				new UpdateMeeting(
+//						"new title",
+//						ZonedDateTime.now(),
+//						ZonedDateTime.now().plusHours(3),
+//						null,
+//						"A",
+//						"new agenda"
+//				)
+//		);
 		schedule.printAll();
 
 //		HashSet<String> participants = new HashSet<String>();

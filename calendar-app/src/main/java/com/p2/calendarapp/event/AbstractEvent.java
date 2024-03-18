@@ -1,5 +1,6 @@
 package com.p2.calendarapp.event;
 
+import com.p2.calendarapp.event.update.AbstractAuditableEvent;
 import com.p2.calendarapp.exception.InvalidEventException;
 
 import java.time.Duration;
@@ -16,7 +17,7 @@ public abstract class AbstractEvent implements Event {
 
     private final ZonedDateTime createAt;
     private ZonedDateTime modifiedAt;
-    private boolean deleteYnl;
+    private boolean deleteYn;
 
     protected AbstractEvent(int id, String title, ZonedDateTime startAt, ZonedDateTime endAt) {
 
@@ -40,7 +41,29 @@ public abstract class AbstractEvent implements Event {
         this.modifiedAt = now;
 
         // 객체가 만들어 질 당시의 설정 값은 삭제가 안된 상태이기 때문
-        this.deleteYnl = false;
+        this.deleteYn = false;
+    }
+
+    public void validateAndUpdate(AbstractAuditableEvent update) {
+        if (deleteYn == true) {
+            throw new RuntimeException("이미 삭제된 이벤트는 수정 할 수 없습니다.");
+        }
+        defaultUpdate(update);
+        update(update);
+    }
+
+    private void defaultUpdate(AbstractAuditableEvent update) {
+        this.title = update.getTitle();
+        this.startAt = update.getStartAt();
+        this.endAt = update.getEndAt();
+        this.duration = Duration.between(this.startAt, this.endAt);
+        this.modifiedAt = ZonedDateTime.now();
+    }
+
+    protected abstract void update(AbstractAuditableEvent update);
+
+    public void delete(boolean deleteYn) {
+        this.deleteYn = deleteYn;
     }
 
     public String getTitle() {
